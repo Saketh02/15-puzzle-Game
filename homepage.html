@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>15 Puzzle Game</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Home Page -->
+    <div id="home-page" class="screen">
+        <h1 class="title">Welcome to the 15 Puzzle Game</h1>
+        <p>Select an image to start:</p>
+        <div class="image-options">
+            <img src="images/game.jpg" alt="Option 1" data-index="1" class="select-image">
+            <img src="images/game2.jpg" alt="Option 2" data-index="2" class="select-image">
+            <img src="images/game3.jpg" alt="Option 3" data-index="3" class="select-image">
+            <img src="images/game4.webp" alt="Option 4" data-index="4" class="select-image">
+        </div>
+        <button id="start-game" disabled>Start Game</button>
+        <!-- Add a View Leaderboard button to your home page -->
+    <button id="view-leaderboard">View Leaderboard</button>
+    </div>
+
+    <!-- Game Page -->
+    <div id="game-page" class="screen hidden">
+        <h1 class="title">15 Puzzle Game</h1>
+        <div class="game-stats">
+            <div id="timer">Time: 0 seconds</div>
+            <div id="move-display">Moves: 0</div>
+        </div>
+        <div class="puzzle-container" id="puzzle-container"></div>
+        <button id="shuffle-button">Shuffle</button>
+        <button id="back-to-home">Back to Home</button>
+        <audio id="background-music" loop>
+            <source src="images/stranger-things-124008.mp3" type="audio/mpeg">
+            Your browser does not support the audio element.
+        </audio>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
