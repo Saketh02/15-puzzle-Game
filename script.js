@@ -194,3 +194,196 @@ function renderPuzzle() {
         puzzleContainer.appendChild(tile);
     });
 }
+function canTileBeMoved(index) {
+    const emptyRow = Math.floor(emptyTileIndex / 4);
+    const emptyCol = emptyTileIndex % 4;
+    const tileRow = Math.floor(index / 4);
+    const tileCol = index % 4;
+    return (emptyRow === tileRow || emptyCol === tileCol) && index !== emptyTileIndex;
+}
+
+function moveTile(index) {
+    if (!isGameRunning) return;
+
+    const emptyRow = Math.floor(emptyTileIndex / 4);
+    const emptyCol = emptyTileIndex % 4;
+    const clickedRow = Math.floor(index / 4);
+    const clickedCol = index % 4;
+
+    if (emptyRow !== clickedRow && emptyCol !== clickedCol) return;
+    let slideTiles = [];
+    
+    if (emptyRow === clickedRow) {
+        const minCol = Math.min(emptyCol, clickedCol);
+        const maxCol = Math.max(emptyCol, clickedCol);
+        for (let col = minCol; col <= maxCol; col++) {
+            const tileIndex = clickedRow * 4 + col;
+            if (tileIndex !== emptyTileIndex) {
+                slideTiles.push(tileIndex);
+            }
+        }
+        
+        slideTiles.sort((a, b) => emptyCol < clickedCol ? a - b : b - a);
+    } else {
+        const minRow = Math.min(emptyRow, clickedRow);
+        const maxRow = Math.max(emptyRow, clickedRow);
+        for (let row = minRow; row <= maxRow; row++) {
+            const tileIndex = row * 4 + clickedCol;
+            if (tileIndex !== emptyTileIndex) {
+                slideTiles.push(tileIndex);
+            }
+        }
+        slideTiles.sort((a, b) => emptyRow < clickedRow ? a - b : b - a);
+    }
+
+    slideTiles.forEach(tileIndex => {
+        tiles[emptyTileIndex] = tiles[tileIndex];
+        emptyTileIndex = tileIndex;
+        tiles[tileIndex] = 0;
+    });
+
+    moveCount++;
+    updateMoveDisplay();
+    renderPuzzle();
+    checkWin();
+}
+
+
+
+function isAdjacent(index1, index2) {
+    const adjacentTiles = getAdjacentTiles(index1);
+    return adjacentTiles.includes(index2);
+}
+
+
+function getAdjacentTiles(index) {
+    const adjTiles = [];
+    const directions = [
+        [-1, 0], 
+        [1, 0],  
+        [0, -1], 
+        [0, 1],  
+    ];
+
+    const row = Math.floor(index / 4);
+    const col = index % 4;
+
+    directions.forEach(([dx, dy]) => {
+        const newRow = row + dx;
+        const newCol = col + dy;
+        const newIndex = newRow * 4 + newCol;
+
+        if (newRow >= 0 && newRow < 4 && newCol >= 0 && newCol < 4) {
+            adjTiles.push(newIndex);
+        }
+    });
+
+    return adjTiles;
+}
+
+function checkWin() {
+    let isSolved = tiles.every((tile, index) => tile === (index + 1) % 16);
+
+    if (isSolved) {
+        console.log("You Win!"); 
+        displayWinModal();
+        isGameRunning = false;
+        clearInterval(timerInterval); 
+    }
+}
+
+
+function startTimer() {
+    timeElapsed = 0;
+    timerInterval = setInterval(() => {
+        timeElapsed++;
+        timerDisplay.textContent = `Time: ${formatTime(timeElapsed)} seconds`;
+    }, 1000); 
+}
+
+function resetTimer() {
+    clearInterval(timerInterval); 
+    timerDisplay.textContent = "Time: 00:00 seconds"; 
+}
+
+function formatTime(seconds) {
+    const minutes = Math.floor(seconds / 60);
+    const remainingSeconds = seconds % 60;
+    return `${String(minutes).padStart(2, '0')}:${String(remainingSeconds).padStart(2, '0')}`;
+}
+
+function displayWinModal() {
+    console.log("Displaying Modal");
+
+    if (!modal) {
+        console.error('Modal element not found!');
+        return;
+    }
+
+    winMessage.textContent = "You Win!";
+    timeTakenElement.textContent = `Time Taken: ${formatTime(timeElapsed)} | Moves: ${moveCount}`;
+    
+    modal.classList.remove('hidden');
+}
+
+restartButton.addEventListener('click', () => {
+    modal.classList.add('hidden');
+    initPuzzle(); 
+    startTimer();
+});
+
+backToHomeFromModalButton.addEventListener('click', () => {
+    modal.classList.add('hidden');
+    gamePage.classList.add('hidden');
+    homePage.classList.remove('hidden');
+    startGameButton.disabled = true;
+    backgroundMusic.pause();
+    tiles = [];
+    isGameRunning = false;
+    resetTimer();
+    moveCount = 0;
+    location.reload(); // Reload the page to reset the game
+});
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
