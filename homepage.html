@@ -37,6 +37,86 @@
             Your browser does not support the audio element.
         </audio>
     </div>
+    <!-- Game Over Modal -->
+    <div id="game-over-modal" class="modal hidden">
+        <div class="modal-content">
+            <h2>Congratulations!</h2>
+            <p id="win-message">You Win!</p>
+            <p id="time-taken"></p>
+            <div id="name-input-section">
+                <label for="player-name">Enter Your Name:</label>
+                <input type="text" id="player-name" maxlength="20" required>
+                <button id="submit-score">Submit Score</button>
+            </div>
+            <button id="restart-game">Restart Game</button>
+            <button id="back-to-home-from-modal">Back to Home</button>
+        </div>
+    </div>
+    <div id="leaderboard-modal" class="modal hidden">
+        <div class="modal-content">
+            <span class="close-leaderboard">&times;</span>
+            <h2>Leaderboard</h2>
+            <table id="leaderboard-table">
+                <thead>
+                    <tr>
+                        <th>Rank</th>
+                        <th>Name</th>
+                        <th>Time</th>
+                        <th>Moves</th>
+                    </tr>
+                </thead>
+                <tbody id="leaderboard-body">
+                    <!-- Leaderboard entries will be dynamically added here -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div id="validate">
+        <p><a href="https://validator.w3.org/"><img src="images/w3c-xhtml.png" alt="HTML Validator"></a>
+        <a href="https://jigsaw.w3.org/css-validator/"><img src="images/w3c-css.png" alt="CSS Validator"></a></p>
+    </div>
     <script src="script.js"></script>
 </body>
 </html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
